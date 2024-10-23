@@ -1,0 +1,49 @@
+
+{% load static %}
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
+  <ul id="cart-items" class="list-group d-flex flex-column" style="max-height: 70vh; overflow-y: auto;">
+                {% for product in cart_prods %}
+                    
+                    <li class="list-group-item cart-item cart-item-{{product.id}} d-flex align-items-center mb-3 rounded border " data-product-id="{{ product.id }}">
+                        <button type="button" class="btn-close shadow-none delete-product position-absolute top-0 end-0 m-1" aria-label="Remove from cart" data-index="{{ product.id }}"></button>
+                        <div class="text-black d-flex w-100 pt-1">
+                            <img src="{{ product.image.url }}" class="img-fluid rounded me-2" style="max-width: 30%; max-height: 30%;" alt="{{ product.name }}">
+                            <div class="flex-grow-1">
+                                <a href="{% url 'product' product.id %}" class="text-black" style="text-decoration:none;">
+                                    <p class="card-title mb-1" style="width:90%;">{{ product.name }}</p>
+                                </a>
+                                    <small class="qty" >Qty: 
+                                        {% for key, value in cart_quantites.items %}
+                                            {% if key == product.id|slugify %}
+                                                {{ value }}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </small>
+                                    <br>
+                                    {% comment %} <small>{{ price_qty }}$</small> {% endcomment %}
+                                    {% if product.is_sale %}
+                                        <small><strike> ${{product.price}} </strike> &nbsp;
+                                        ${{product.sale_price}}
+                                        </small>
+                                    {% else %}
+                                        <small>{{ product.price }}$</small>
+                                    {% endif %}
+                                    
+                            </div>
+                        </div>
+                    </li>
+                   
+                    {% endfor %}
+                    </ul>
+                <hr class="my-4">
+                    <h5 class="text-end" id="cart-total">Total: {{ cart_total }}$</h5>
+                    
+
+                   
+
+
+
+                 

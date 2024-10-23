@@ -1,0 +1,101 @@
+{% extends 'layout.html'%}
+
+    {% block content %}
+      <!-- Header -->
+        <header class="header-img py-5" style="height:45vh;">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                        <h1 class="display-4 fw-bolder">Checkout</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">Review Your Order...</p>
+                </div>
+            </div>
+        </header>
+        {% comment %} end of header {% endcomment %}
+        <br>
+        
+        <div class="container mb-5">
+            
+            <div class="row align-items-center justify-content-center">
+                <div class="col-8">
+                    
+                               
+                            
+                       
+                    <br><br>
+
+
+   
+            <a href="{% url "cart_summary" %}" style="text-decoration:none;" ><small> Back </small></a>
+
+                <div class="card mb-3" style="">
+                    {% for product in cart_products %}
+                    <div class="row g-0 border-bottom rounded-1 max-height:20vh;">
+                            <div class="col-md-2">
+                                <img src="{{product.image.url}}" class="img-fluid flex-fill rounded-start" style="height:100%; " alt="...">
+                            </div>
+                            <div class="col-md-10">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{product.name}}:</h5>
+                                    {% if product.is_sale %}
+                                    <p class="card-text">${{product.sale_price}}</p>
+                                    {% else %}
+                                    <p class="card-text">${{product.price}}</p>                                         
+                                    {% endif %}  
+                                    <p><small>
+                                    Quantity:
+                                    {% for key, value in cart_quantites.items %}
+                                        {% if key == product.id|slugify %}
+                                            {{ value }}
+                                        {% endif %}         
+                                    {% endfor %}
+                                </small>
+                            </p>      
+                                </div>
+                            </div>
+                    </div>
+                    
+                        
+                {% endfor %}
+                <div class="d-flex justify-content-end" >
+                    <h4>Total:</h4>
+                    <p class="mx-1">${{totals}}</p>
+                </div>
+                </div>
+                
+               
+
+
+
+
+
+
+                
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                    <div class="card">
+                        <h6 class="card-header">Shipping Information</h6>
+                        <div class="card-body">
+                            <form method="POST" action="{% url "billing_info" %}">
+                                {% csrf_token %}
+                                {{shipping_form.as_p}}
+                        </div>
+                      </div>
+                <br>
+                                <button type="submit" class="btn btn-style">Continue To Billing</button>
+                            </form>    
+            </div>    
+            </div>
+        </div>
+        
+
+
+        {% endblock  %}

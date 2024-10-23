@@ -1,0 +1,85 @@
+{% extends 'layout.html'%}
+
+    {% block content %}
+      <!-- Header -->
+        <header class="header-img py-5" style="height:45vh;">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                        <h1 class="display-4 fw-bolder">Billing Information</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">Enter Your Payment Information...</p>
+                </div>
+            </div>
+        </header>
+        {% comment %} end of header {% endcomment %}
+        <br>
+        
+        <div class="container mb-5">
+            
+            <div class="row align-items-center justify-content-center">
+                <div class="col-8">
+                    <a href="{% url "checkout" %}" style="text-decoration:none;" ><small> Back </small></a>
+                    <div class="card">
+                            <div class="card-header">
+                                <h5>Order Summary<h5>
+                            </div>
+                            <div class="card-body">
+                                {% for product in cart_products %}
+                                    {{product.name}}:
+                                        {% if product.is_sale %}
+                                            ${{product.sale_price}}
+                                        {% else %}
+                                            ${{product.price}}                                            
+                                        {% endif %}
+                                        <br/>
+                                <small>
+                                    Quantity:
+                                    {% for key, value in cart_quantites.items %}
+                                        {% if key == product.id|slugify %}
+                                            {{ value }}
+                                        {% endif %}         
+                                    {% endfor %}
+                                </small>
+                                <hr>
+                                
+
+                             {% endfor %}
+                            <div class="d-flex">
+                                <h6>Total:</h6>
+                                <p class="mx-1">${{totals}}</p>    
+                            </div>
+                        </div>
+
+                        <h6 class="mx-3">Shipping Information</h6>
+                        <div class="border-bottom">
+                        </div>
+                        <div class="card-body">
+                            <small>
+                                Full Name: {{shipping_info.shipping_full_name}}
+                                <br>
+                                Address: {{shipping_info.shipping_address1}}
+                                        {{shipping_info.shipping_city}}
+                                        {{shipping_info.shipping_state}}
+                                        {{shipping_info.shipping_zipcode}}
+                                        {{shipping_info.shipping_country}}
+                            </small>
+                      </div>
+                    </div>
+                    <br>
+                <div class="card">
+                    <h5 class="card-header">Billing Info</h5>
+                    <div class="card-body">
+                        <form method="POST" action="{% url "process_order" %}">
+                            {% csrf_token %}
+                        {{billing_form.as_p}}
+                       
+                    </div>
+                  </div>
+                  <br><br>
+                            <button class="btn btn-style" type="submit">Pay Now</button>
+                        </form>     
+            </div>    
+            </div>
+        </div>
+
+
+        {% endblock  %}

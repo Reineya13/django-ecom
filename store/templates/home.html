@@ -1,0 +1,190 @@
+{% extends 'layout.html'%}
+
+    {% block content %}
+      <!-- Header -->
+      <header class="d-flex justify-content-center align-items-center text-center header-img" id="home" style="height: 100vh; position: relative;">
+        <div class="col">
+            <div class="container mb-5">
+                <div class="text-white row bg-top">
+                    <h1 class="display-4 fw-bolder bg-top" data-aos="zoom-in" data-aos-duration="1200">Swiftie Style</h1>
+                    <p class="lead fw-normal text-white-70 bg-top" data-aos="zoom-in" data-aos-duration="1200">Discover exclusive Taylor Swift merch</p>
+                    <div class="text-center mt-2">
+                        <a href="#product_home" class="btn btn-lg bg-top btn-outline-light" type="button" data-aos="zoom-in" data-aos-duration="1200">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+        {% include "about_&_prods.html" %}
+
+   
+       
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script type="text/javascript">
+                $(document).on('click', '.btn-pang[data-page]', function(e) {
+                e.preventDefault(); 
+
+                var page = $(this).attr('data-page');
+               
+                
+                    $.ajax({
+                        url: window.location.pathname,  
+                        type: 'GET',
+                        data: {
+                            'page': page, 
+                            target: 'products'
+ 
+                        },
+                        success: function(data) {      
+                            $('#product-pang').html(data); 
+                            $('#product-pang').fadeIn(500); 
+                            history.pushState(null, null, window.location.pathname + '?page=' + page);  
+                            
+                        },
+                        error: function(xhr, status, error) {
+                            console.log('Error: ' + error); 
+                        }
+                    }); 
+        });
+        </script>
+
+
+        <script>
+            $(document).on('click', '.delete-product', function(e){
+                e.preventDefault();
+      
+                $.ajax({
+                  type: 'POST',
+                  url: '{% url 'cart_delete' %}',
+                  data: {
+                    product_id: $(this).data('index'),
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    action: 'post' 
+                    
+                  },
+                  
+                  success: function(json){
+                    var product_id = json.product_id
+                    document.getElementById('cart_quantity').innerHTML = json.cart_length;
+                    
+
+                    // remove the item from cart
+                    var ul = document.getElementById('cart-items'); 
+                    var element = ul.querySelector('[data-product-id="' + product_id + '"]');
+                    element.remove();
+
+                    var cartQuantities = json.cart_quant;
+
+                    // total amount to pay
+                    var cartTotal = json.cart_total;
+                    $('#cart-total').text('Total: $' + cartTotal);
+                    
+                    
+                    // Cart Empty on sidebar
+                    var cart_length = json.cart_length;
+                    if (cart_length === 0){
+                      emptyCartElement = document.createElement('h5');
+                      emptyCartElement.className = 'empty text-center';
+                      emptyCartElement.textContent = 'Empty Cart :(';
+                      ul.appendChild(emptyCartElement);
+                    } 
+                   
+                   
+                    
+                  
+                  },
+      
+                  error: (xhr, errmsg, err)=>{
+      
+                  }  
+                });
+              })
+        </script>
+        
+        <script>
+           
+            {% comment %} is button pressed {% endcomment %}
+            $(document).on('click', '.add-cart', function(e){
+                e.preventDefault();
+                var product_id = $(this).val();
+                $.ajax({
+                  type: 'POST',
+                  url: "{% url 'cart_add' %}",
+                  data: {
+                    product_id: product_id,
+                    product_qty: 1,
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    action: 'post',
+                    target: 'cart'
+                  },
+                  
+                  success: function(response){
+                    document.getElementById('cart_quantity').innerHTML = response.qty;
+                    //console.log(response);
+                    var existingCartItem = $('#cart-items').find('[data-product-id="' + response.product_id + '"]');
+                    existingCartItemLength=existingCartItem.length
+
+                              
+                    if (existingCartItemLength > 0) {
+                        var qtyElement = existingCartItem.find('.qty');
+                        qtyElement.text('Qty: ' + response.product_qty);  
+                        
+                    } else {
+                        var newCartItem = '<li class="list-group-item cart-item d-flex align-items-center mb-3 rounded border" data-product-id="' + response.product_id + '">';
+                        newCartItem += '<button type="button" class="btn-close shadow-none delete-product position-absolute top-0 end-0 m-1" aria-label="Remove from cart" data-index="' + response.product_id + '"></button>';
+                        newCartItem += '<div class="text-black d-flex w-100 pt-1">';
+                        newCartItem += '<img src="' + response.product_image + '" class="img-fluid rounded me-2" style="max-width: 30%; max-height: 30%;" alt="' + response.product_name + '">';
+                        newCartItem += '<div class="flex-grow-1">';
+                        newCartItem += '<p class="card-title mb-1" style="width:90%;">' + response.product_name + '</p>';
+                        newCartItem += '<small class="qty"> Qty:' + response.product_qty + '</small>';  
+                        newCartItem += '<br>';
+                        if (response.is_sale){
+                            newCartItem += '<small><strike> $' + response.product_price + '</strike> &nbsp;';
+                            newCartItem += '$' + response.sale_price;
+                        }
+                        else{
+                            newCartItem += '<small>' + response.product_price + '$</small>';
+                        }
+                        
+                        newCartItem += '</div>';
+                        newCartItem += '</div>';
+                        newCartItem += '</li>';
+                        
+                        $('#cart-items').append(newCartItem); 
+                        
+                    }
+                
+                    
+                    
+                    $('#cart-total').text('Total: $' + response.cart_total);
+                    
+                    var ul = document.getElementById('cart-items'); 
+                        var emptyCartElement = ul.querySelector('.empty');
+                        if (emptyCartElement) {
+                          ul.removeChild(emptyCartElement);
+                        } 
+                },
+                
+                  error: (xhr, errmsg, err)=>{
+                    console.error('Error: ' + errmsg);
+                  }  
+                });
+               
+             
+    
+              });
+    
+    
+          </script>
+
+         
+          
+       
+    
+
+
+
+        {% endblock  %}
+
+       

@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<header class="header-img py-5"  style="height:45vh;">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Time to update your payment details</h1>
+            <p class="lead fw-normal text-white-50 mb-0">don’t let them be 'Out of the Woods</p>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div class="row align-items-center justify-content-center">
+       
+            <div class="col-8">
+                <br>
+                <h6> Billing Information</h6>
+                <form method="POST" action="{%url 'update_info'%}">
+                        {% csrf_token %} 
+                    {{form.as_p}}
+                    <br>
+                    <br>
+                    <br>
+                <h6> Shipping Information</h6>
+                    {{shipping_form.as_p}}
+                    <button type="submit"  class="btn btn-style mt-auto">Update Info</button>
+                </form>
+                <br>
+                <br>
+                <br>
+            </div>
+
+    </div>
+   
+            
+</div>
+
+
+{% endblock  %}

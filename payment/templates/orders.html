@@ -1,0 +1,62 @@
+{% extends "layout.html" %} 
+
+{% block content %}
+
+    <div class="container" >
+        <div class="row"  >
+            <div class="col-8 mx-auto" >
+        
+                {% if order.shipped%}
+                <a href="{% url "shipped_dash" %}" style="text-decoration:none; text-align:left;"><small> Back </small></a>
+                {% else %}
+                <a href="{% url "not_shipped_dash" %}" style="text-decoration:none; text-align:left;"><small> Back </small></a>
+                {% endif %}
+                
+                    <div class="card text-center">
+                    <h4 class="card-header ">Order {{order.id}} - ${{order.amount_paid}}</h4>
+                    <div class="card-body ">
+                        <h5> Order Info: </h5>
+                        <strong> Email:</strong> {{order.email}} <br> 
+                        {% if order.shipped%}
+                        <strong> Date Ordered:</strong> {{order.date_order}} <br>
+                        <strong> Date Shipped:</strong> {{order.date_shipped}} <br>
+                            <br>
+                        <form method="POST" >
+                            {% csrf_token %}
+                            <input type="hidden" name="shipping_status" value="false"/>
+                            <button class="btn btn-danger" type="submit">Mark As Not-Shipped </button>
+                        </form>
+                        {% else %}
+                        <strong> Date Ordered:</strong> {{order.date_order}} <br><br>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="shipping_status" value="true"/>
+                            <button class="btn btn-style" type="submit">Mark As Shipped </button>
+
+                        </form>
+                        {% endif %}
+                        <hr>
+                        <h5> Personal Info: </h5>
+                        <strong> Name:</strong> {{order.full_name}}<br>
+                        <strong> Shipping Address:</strong> {{order.shipping_address}} <br>
+                        <hr>
+                        <h5>Items:</h5>
+                        {% for item in items %}
+                        {{item.product}} - {{item.quantity}} - ${{item.price}}
+                        <br>
+                        {% endfor %}
+                      
+                    </div>
+                  </div> 
+                
+                </div>
+            </div>
+        </div>
+    <br>
+    <br><br><br>
+
+
+
+
+
+{% endblock  %}

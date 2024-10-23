@@ -1,0 +1,64 @@
+<!-- Section-->
+<section class="bg-light p-5"  id="about">
+    <div class="container px-4 px-lg-5 " style="min-height:95vh;  border-radius:10px">
+            <h1 class="text-color d-flex pt-5 justify-content-center mb-2" data-aos="zoom-in">About Us</h1>   
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-lg-3 about-img mx-3" data-aos="zoom-in" data-aos-easing="linear" data-aos-duration="1000">
+                    <h2 class="mb-3 text-color">Taylor Swift Merch</h2>
+                    <p class="text-color text-justify mt-2">Taylor Swift Merch,<br> operates as an integral arm of her expansive brand,<br> 
+                        offering fans a wide array of products that reflect her music, personal style, and creative vision.</p>
+                    </div>
+                        <div class="col-lg-3 about-img mx-3" data-aos="zoom-in" data-aos-easing="linear" data-aos-duration="1200">
+                        <h2 class="mb-3 text-color">Exclusive Collection</h2>
+                        <p class="text-color text-justify mt-2">The company provides a diverse collection of items, including apparel, accessories, home decor, and exclusive limited-edition pieces,
+                            often themed around her latest albums and tours.</p>
+                        </div>
+                        <div class="col-lg-3 about-img mx-3" data-aos="zoom-in" data-aos-easing="linear" data-aos-duration="1400" >
+                            <h2 class="mb-3 text-color">Connecting Fans</h2>     
+                            <p class="text-color text-justify mt-2">The company's success is bolstered by Taylor Swift's keen sense of branding and her direct engagement with her fanbase, <br>
+                                often involving them in the creation process and offering personalized touches that make each item unique and special.</p>
+                        </div>
+                        <div class="container pt-5 " data-aos="zoom-in" data-aos-easing="linear" data-aos-duration="1600">
+                            <blockquote class="blockquote text-center text-color">
+                                <h3 class="pt-5"> "And the road not taken looks real good now"</h3>
+                                <footer class="blockquote-footer pt-3">Taylor Swift, <cite title="Song">
+                                    <a class="text-color" style="text-decoration:none;" target="blank" href="https://www.youtube.com/watch?v=6TAPqXkZW_I">Betty</a></cite></footer>
+                            </blockquote>
+                           
+                        </div>
+                         <!-- section button-->
+                        <div style="position: fixed; bottom: 20px; right: 20px;" class="mt-auto" data-aos="zoom-in"  data-aos-duration="1000">  
+                            <a href="#nav" class="scroll-icon">
+                                <i class="bi bi-chevron-up text-color ms-auto" style="font-size: 40px; "></i>
+                            </a>
+                        </div>
+        </div>
+              
+    </div>
+     
+    
+</section>
+
+<section class="bg-light p-5" id="product_home">
+<div class="container px-4 px-lg-5 " style="min-height:95vh;  border-radius:10px">
+    <h1 class="text-color d-flex center"  data-aos="zoom-in" data-aos-easing="linear" data-aos-duration="1300"> Take A Look: </h1>
+        <hr>         
+    <div id="product-pang"  data-aos="zoom-in" data-aos-easing="linear" data-aos-duration="1500"> 
+        {% include "products_list_partial.html" %}
+    </div> 
+     
+</div>
+           
+</section>  
+
+
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+<div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasRightLabel">Cart</h5>
+    <button type="button" class="btn-close shadow-none" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+</div>
+<div class="offcanvas-body">
+    {% include "cart_offcanvas.html" %}
+</div>
+</div>

@@ -1,0 +1,148 @@
+
+{% load static %}
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
+
+<div class="d-flex align-items-center justify-content-between">
+            {% if page_obj.has_previous %}
+            <a href="#" class="btn-pang ms-2" id="right" style="text-decoration:none" data-page="{{ page_obj.previous_page_number }}">
+                <img src={% static "assets/left-arrow.png" %} style="width:30px; height:30px;"  />
+            </a>
+            {% endif %}
+            
+        <div id="products-container" style="overflow: hidden" class="animate__animated animate__fadeIn">
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                {% for product in page_obj %}
+                <div class="col mb-5">
+                    <div class="card h-100 box-shadow">
+                        <a href="{% url 'product' product.id %}" style="text-decoration:none; " class="text-black">
+                            <img class="card-img-top" src="{{ product.image.url }}" alt="{{ product.name }}" />
+                            <div class="card-body p-4">
+                                <h5 class="fw-bolder">{{ product.name }}</h5>
+                                {% if product.is_sale %}
+                                <strike> ${{product.price}} </strike> &nbsp;
+                                ${{product.sale_price}}
+                                {% else %}
+                                ${{ product.price }}
+                                {% endif %}
+                            </div>
+                        </a>
+                        <div class="card-footer p-2 pt-2 pb-3 border-top-0 bg-transparent d-flex" style="align-items: flex-end; margin-top: auto" >
+                            <div class="text-center col-6 ">
+                                <a class="btn btn-style mt-auto" style="width:100%"  href="{% url 'product' product.id %}"><small>View Product</small></a>
+                            </div>
+                            <div class="text-center col-6 mx-1">
+                                <button class="btn btn-style mt-auto add-cart" value="{{product.id}}" style="width:100%" type="button"  data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><small>Add To Cart</small></button> 
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+
+        
+
+        {% if page_obj.has_next %}
+        <a href="#" class=" btn-pang" id="left"  style="text-decoration:none" data-page="{{ page_obj.next_page_number }}">
+            <img src={% static "assets/right-arrow.png" %} style="width:40px; height:40px;"  />
+        </a>
+        {% endif %}
+    </div>
+
+    <script>
+        $(document).on('click','#right, #left', function(){
+
+            var product_page = $('#products-container');
+
+            product_page.removeClass('animate__fadeIn');
+
+            $('#products-container').addClass('animate__fadeIn')
+
+        });
+    </script>
+
+    <script>
+           
+        {% comment %} is button pressed {% endcomment %}
+        $(document).on('click', '.add-cart', function(e){
+            e.preventDefault();
+            var product_id = $(this).val();
+            $.ajax({
+              type: 'POST',
+              url: "{% url 'cart_add' %}",
+              data: {
+                product_id: product_id,
+                product_qty: 1,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post',
+                target: 'cart'
+              },
+              
+              success: function(response){
+                document.getElementById('cart_quantity').innerHTML = response.qty;
+                //console.log(response);
+                var existingCartItem = $('#cart-items').find('[data-product-id="' + response.product_id + '"]');
+                existingCartItemLength=existingCartItem.length
+
+                          
+                if (existingCartItemLength > 0) {
+                    var qtyElement = existingCartItem.find('.qty');
+                    qtyElement.text('Qty: ' + response.product_qty);  
+                    
+                } else {
+                    var newCartItem = '<li class="list-group-item cart-item d-flex align-items-center mb-3 rounded border" data-product-id="' + response.product_id + '">';
+                    newCartItem += '<button type="button" class="btn-close shadow-none delete-product position-absolute top-0 end-0 m-1" aria-label="Remove from cart" data-index="' + response.product_id + '"></button>';
+                    newCartItem += '<div class="text-black d-flex w-100 pt-1">';
+                    newCartItem += '<img src="' + response.product_image + '" class="img-fluid rounded me-2" style="max-width: 30%; max-height: 30%;" alt="' + response.product_name + '">';
+                    newCartItem += '<div class="flex-grow-1">';
+                    newCartItem += '<p class="card-title mb-1" style="width:90%;">' + response.product_name + '</p>';
+                    newCartItem += '<small class="qty"> Qty:' + response.product_qty + '</small>';  
+                    newCartItem += '<br>';
+                    if (response.is_sale){
+                        newCartItem += '<small><strike> $' + response.product_price + '</strike> &nbsp;';
+                        newCartItem += '$' + response.sale_price;
+                    }
+                    else{
+                        newCartItem += '<small>' + response.product_price + '$</small>';
+                    }
+                    
+                    newCartItem += '</div>';
+                    newCartItem += '</div>';
+                    newCartItem += '</li>';
+                    
+                    $('#cart-items').append(newCartItem); 
+                    
+                }
+            
+                
+                
+                $('#cart-total').text('Total: $' + response.cart_total);
+                
+                var ul = document.getElementById('cart-items'); 
+                    var emptyCartElement = ul.querySelector('.empty');
+                    if (emptyCartElement) {
+                      ul.removeChild(emptyCartElement);
+                    } 
+            },
+            
+              error: (xhr, errmsg, err)=>{
+                console.error('Error: ' + errmsg);
+              }  
+            });
+           
+         
+
+          });
+
+
+      </script>
+    
+   
+    
+
+
