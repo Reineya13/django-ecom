@@ -1,4 +1,4 @@
-#Overview
+ #Overview
 This project is a specialized e-commerce platform focused on Taylor Swift merchandise, including clothing, accessories, and music albums. Designed with a custom, fan-centric aesthetic, this website aims to provide a rich, engaging user experience that goes beyond the basics of a typical e-commerce platform.
 
 The site is fully responsive, with features that cater specifically to the needs of Taylor Swift fans. These include a sticky navigation bar, dynamic product updates, custom dropdown menus, and tailored user interactions.
@@ -39,3 +39,4 @@ views.py: Contains all the backend logic for managing products, carts, and user 
 models.py: Defines the database structure, including advanced features like product categories (based on Taylor Swift albums) and user order history.
 static/assets/: Houses all static files, including custom CSS and JavaScript for the dynamic interactions.
 requirements.txt: Lists required Python packages such as Django, Bootstrap, and other dependencies for smooth project execution.
+
