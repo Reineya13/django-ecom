@@ -7,9 +7,7 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv()
-db_password = os.environ.get('db_password')
-if db_password is None:
-    raise ValueError("Missing 'db_password' environment variable.")
+
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -82,7 +80,7 @@ DATABASES = {
          'ENGINE': 'django.db.backends.postgresql',
          'NAME': 'railway',
          'USER': 'postgres',
-         'PASSWORD': db_password,
+         'PASSWORD': os.environ['DB_PASSWORD_ECOM'],
          'HOST': 'junction.proxy.rlwy.net',
          'PORT': '47416'
     }
