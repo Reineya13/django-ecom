@@ -19,7 +19,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['django-ecom-production-7978.up.railway.app', 'https://django-ecom-production-7978.up.railway.app']
 
-CSRF_TRUSTED_ORIGINS = ['django-ecom-production-7978.up.railway.app', 'https://django-ecom-production-7978.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://django-ecom-production-7978.up.railway.app']
+
 
 
 # Application definition
