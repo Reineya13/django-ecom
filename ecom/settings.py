@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv()
+db_password = os.environ.get('DB_PASSWORD_ECOM')
 
 
 
@@ -80,11 +81,12 @@ DATABASES = {
          'ENGINE': 'django.db.backends.postgresql',
          'NAME': 'railway',
          'USER': 'postgres',
-         'PASSWORD': os.environ['DB_PASSWORD_ECOM'],
+         'PASSWORD': db_password,
          'HOST': 'junction.proxy.rlwy.net',
          'PORT': '47416'
     }
 }
+
 
 
 
