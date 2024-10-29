@@ -40,4 +40,3 @@ models.py: Defines the database structure, including advanced features like prod
 static/assets/: Houses all static files, including custom CSS and JavaScript for the dynamic interactions.
 requirements.txt: Lists required Python packages such as Django, Bootstrap, and other dependencies for smooth project execution.
 
-1
