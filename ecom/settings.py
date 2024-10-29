@@ -19,6 +19,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['django-ecom-production-7978.up.railway.app', '127.0.0.1']
 
+HOST = '0.0.0.0'
+PORT = os.environ.get('PORT')
+
 CSRF_TRUSTED_ORIGINS = ['http://django-ecom-production-7978.up.railway.app']
 
 
