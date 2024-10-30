@@ -23,7 +23,7 @@ HOST = '0.0.0.0'
 
 PORT = os.environ.get('PORT')
 
-CSRF_TRUSTED_ORIGINS = ['http://django-ecom-production-7978.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://django-ecom-production-7978.up.railway.app']
 
 
 
