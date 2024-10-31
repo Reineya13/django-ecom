@@ -4,13 +4,74 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light nav-fill text-dark " id="nav">
     <div class="container-fluid">
          <!-- Left side: Brand -->
-         <a class="navbar-brand ms-5" href="{% url 'home' %}">
-            <img style="max-height:50px;" alt="logo" src="{% static 'assets/taylor_logo.png' %}" />
+         <a class="navbar-brand ms-auto" href="{% url 'home' %}">
+            <img style="max-height:50px; margin-top:10px;" alt="logo" src="{% static 'assets/taylor_logo.png' %}" />
         </a>
-        <!-- Navbar toggler for mobile -->
-        <button class="navbar-toggler shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        
+    <div class="d-flex justify-content-end align-items-end no-gutters me-auto ms-auto">
+        <!-- Icons for mobile view, centered and horizontal -->
+        <div class="d-flex justify-content-end">
+            <div class="d-flex d-lg-none icons-mobile">
+                <ul class="navbar-nav d-flex flex-row align-items-center ms-auto p-0 gap-0">
+                        <li class="nav-item ">
+                            <a class="nav-link" href="#" data-bs-toggle="dropdown">
+                                <i class="bi bi-search text-color"></i>
+                            </a>
+                            <ul class="dropdown-menu p-2" aria-labelledby="searchDropdown">
+                                <form class="d-flex" method="POST" action="{% url 'search' %}">
+                                    {% csrf_token %}
+                                    <input name="searched" class="form-control" type="search" placeholder="Search" aria-label="Search">
+                                </form>
+                            </ul>
+                        </li>
+        
+        
+                    <!-- person icon -->  
+                    <li class="nav-item ">
+                        <a class="nav-link" href="#" data-bs-toggle="dropdown">
+                            <i class="bi bi-person text-color"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            {% if user.is_authenticated %}
+                                <li><a class="dropdown-item" href="{% url 'update_user' %}">Profile</a></li>
+                                <li><a class="dropdown-item" href="{% url 'update_password' %}">Change Password</a></li>
+                                <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                            {% else %}
+                                <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
+                                <li><a class="dropdown-item" href="{% url 'register' %}">Register</a></li>
+                            {% endif %}
+                        </ul>
+                    </li>
+        
+                    <li class="nav-item ">
+                        <a class="nav-link" href="{% url 'cart_summary' %}">
+                                        <i class="bi bi-bag text-color" style="font-size: 20px;"><span class="badge bg-color text-white" 
+                                            style="width: 30px; height: 30px; padding: 15px 12px; font-size: 23px; border-radius: 20px;
+                                            transform: perspective(0px) translate(-13px, -1.5px) rotate(0deg) scale(0.50);
+                                            transform-origin: top;
+                                            padding-right: 7px;
+                                            padding-top: 2px;
+                                            padding-left: 0.5px;
+                                            text-align: center;
+                                            border-width: 48px;
+                                            " id="cart_quantity">{{cart|length}}</span>
+                                        </i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+                <!-- Navbar toggler for mobile -->
+                <button class="navbar-toggler shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            
+    </div>
+        
+
+
+      
         <!-- Center: Links -->
      <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mx-auto mb-2 mb-lg-0 text-center">
@@ -54,19 +115,7 @@
             </ul>
         </div>
                        
-                       
-                        {% comment %} <li class="nav-item dropdown mx-2">
-                            <a class="nav-link dropdown center-drop  text-color" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Music</a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item text-color" href="{% url "category" 'Vinyls' %}">Vinyls</a></li>
-                                    <li><a class="dropdown-item text-color" href="{% url "category" 'CDs' %}">CDs</a></li>
-                                    <li><a class="dropdown-item text-color" href="{% url "category" 'Cassets' %}">Cassets</a></li>
-                                </ul>
-                        </li> {% endcomment %}
-                       
-                    
-                      
-    
+
      <!-- Right side: Icons -->
    
      <div class="d-flex d-none d-lg-flex align-items-center me-3">
@@ -123,63 +172,23 @@
             </ul>
         </div> 
 
-         <!-- Icons for mobile view, centered and horizontal -->
-
-   <div class="d-flex d-lg-none my-2 icons-mobile">
-    <ul class="navbar-nav d-flex flex-row align-items-center justify-content-center">
-        <li class="nav-item mx-2">
-            <a class="nav-link" href="#" data-bs-toggle="dropdown">
-                <i class="bi bi-search text-color"></i>
-            </a>
-            <ul class="dropdown-menu p-2" aria-labelledby="searchDropdown">
-                <form class="d-flex" method="POST" action="{% url 'search' %}">
-                    {% csrf_token %}
-                    <input name="searched" class="form-control" type="search" placeholder="Search" aria-label="Search">
-                </form>
-            </ul>
-        </li>
-
-
-            <!-- person icon -->  
-            <li class="nav-item mx-1">
-                <a class="nav-link" href="#" data-bs-toggle="dropdown">
-                    <i class="bi bi-person text-color"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end">
-                    {% if user.is_authenticated %}
-                        <li><a class="dropdown-item" href="{% url 'update_user' %}">Profile</a></li>
-                        <li><a class="dropdown-item" href="{% url 'update_password' %}">Change Password</a></li>
-                        <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
-                    {% else %}
-                        <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
-                        <li><a class="dropdown-item" href="{% url 'register' %}">Register</a></li>
-                    {% endif %}
-                </ul>
-            </li>
-
-            <li class="nav-item mx-2">
-                <a class="nav-link" href="{% url 'cart_summary' %}">
-                                <i class="bi bi-bag text-color" style="font-size: 20px;"><span class="badge bg-dark text-white" 
-                                    style="width: 30px; height: 30px; padding: 15px 12px; font-size: 23px; border-radius: 20px;
-                                    transform: perspective(0px) translate(-13px, -1.5px) rotate(0deg) scale(0.50);
-                                    transform-origin: top;
-                                    padding-right: 7px;
-                                    padding-top: 2px;
-                                    padding-left: 0.5px;
-                                    text-align: center;
-                                    border-width: 48px;
-                                    " id="cart_quantity">{{cart|length}}</span>
-                                </i>
-                </a>
-            </li>
-        </ul>
-    </div>
-
+      
 
 
 
     </div>
 </nav>
+
+<script>
+    document.querySelector('.navbar-toggler').addEventListener('click', function () {
+        const iconsMobile = document.querySelector('.icons-mobile');
+        if (this.getAttribute('aria-expanded') === 'true') {
+            iconsMobile.classList.add('d-none'); // Hide icons when navbar is open
+        } else {
+            iconsMobile.classList.remove('d-none'); // Show icons when navbar is closed
+        }
+    });
+</script>
 
 
 

@@ -12837,11 +12837,104 @@ fieldset:disabled .btn {
   }
 }
 
+.btn-pang {
+  width: 50px;
+  /* או כל גובה שמתאים לך */
+  height: 50px;
+  /* או כל רוחב שמתאים לך */
+  display: flex;
+  /* כדי למרכז את התמונה */
+  justify-content: center;
+  /* למרכז את התמונה */
+  align-items: center;
+  /* למרכז את התמונה */
+  margin: 0 5px;
+  /* רווחים סביב החצים */
+}
+
+#products-container {
+  margin: 0 auto;
+  /* למרכז את הקונטיינר */
+  max-width: 1200px;
+  /* גודל מקסימלי שיתאים לעיצוב */
+}
+
+#products-container {
+  margin: 0 auto;
+  /* למרכז את הקונטיינר */
+  max-width: 1200px;
+  /* גודל מקסימלי שיתאים לעיצוב */
+}
+
+.btn-pang {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 5px;
+  /* רווחים סביב החצים */
+  height: 50px;
+  /* גובה החץ */
+  width: 50px;
+  /* רוחב החץ */
+}
+
+.row {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.col-6 {
+  flex: 0 0 50%;
+  /* תופס חצי שורה */
+  max-width: 50%;
+  /* תופס חצי שורה */
+}
+
+@media (min-width: 576px) {
+  .col-md-4 {
+    flex: 0 0 33.33%;
+    /* תופס שליש שורה במסכים בינוניים */
+    max-width: 33.33%;
+    /* תופס שליש שורה במסכים בינוניים */
+  }
+}
+
+@media (min-width: 992px) {
+  .col-lg-3 {
+    flex: 0 0 25%;
+    /* תופס רבע שורה במסכים גדולים */
+    max-width: 25%;
+    /* תופס רבע שורה במסכים גדולים */
+  }
+}
+
+
 /* Center icons under logo only on mobile */
 @media (max-width: 767px) {
   .btn-sm-screen {
     width: 50px;
   }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    min-width: 90%;
+    height: auto;
+
+  }
+
+  .card-img-top {
+    object-fit: cover;
+    /* מאפשר שהתמונה תתמלא את התמונה העליונה */
+    height: 150px;
+    /* ניתן לשנות את הגובה בהתאם לצורך */
+  }
+
+  .card-body {
+    flex-grow: 1;
+    /* מאפשר לגוף הכרטיס לתפוס את הגובה הנותר */
+  }
+
 
 }
 

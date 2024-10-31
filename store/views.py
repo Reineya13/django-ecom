@@ -86,9 +86,13 @@ def home(request):
     totals = cart.cart_total()  
     cart_length = cart.__len__()
     
+    
+
    
     # paginator
-    p = Paginator(products, 4)
+   
+    only_t_shirts = Proudct.objects.filter(category__name="T-Shirts")
+    p = Paginator(only_t_shirts, 4)
     page_number = request.GET.get('page')
     page_obj = p.get_page(page_number)    
     

@@ -15,7 +15,7 @@ db_password = os.environ.get('DB_PASSWORD_ECOM')
 SECRET_KEY = 'django-insecure-@1$gp8x%)dlhrnzy09vdz_h2m&r_l%#!u&#k=!(8)fnzg1q^re'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['django-ecom-production-7978.up.railway.app', '127.0.0.1']
 
@@ -144,3 +144,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
